@@ -58,7 +58,7 @@ class HotelFunctionWidget extends StatelessWidget {
                   ],
                 ),
               ),
-              SvgPicture.asset('assets/icons/right_array.svg'),
+              SvgPicture.asset('assets/icons/right_arrow.svg'),
             ],
           ),
         ),

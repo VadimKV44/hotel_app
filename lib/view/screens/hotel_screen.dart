@@ -3,6 +3,7 @@ import 'package:hotel_app/model/models/hotel_functions_model.dart';
 import 'package:hotel_app/view/consts/colors.dart';
 import 'package:hotel_app/view/consts/strings.dart';
 import 'package:hotel_app/view/consts/styles.dart';
+import 'package:hotel_app/view/screens/hotel_room_screen.dart';
 import 'package:hotel_app/view/widgets/about_hotel_widget.dart';
 import 'package:hotel_app/view/widgets/custom_button_widget.dart';
 import 'package:hotel_app/view/widgets/estimation_widget.dart';
@@ -18,10 +19,10 @@ class HotelScreen extends StatefulWidget {
 
 class _HotelScreenState extends State<HotelScreen> {
   List<String> images = [
-    'assets/images/image_1.png',
-    'assets/images/image_1.png',
-    'assets/images/image_1.png',
-    'assets/images/image_1.png',
+    'image_1.png',
+    'image_1.png',
+    'image_1.png',
+    'image_1.png',
   ];
 
   List<String> peculiarities = ['3-я линия', 'Платный Wi-Fi в фойе', '30 км до аэропорта', '1 км до пляжа'];
@@ -62,7 +63,7 @@ class _HotelScreenState extends State<HotelScreen> {
                         ImageViewWidget(
                           itemCount: images.length,
                           itemBuilder: (context, index) {
-                            return const ImageItemWidget(image: 'assets/images/image_1.png');
+                            return ImageItemWidget(image: 'assets/images/${images[index]}');
                           },
                         ),
                         Padding(
@@ -127,7 +128,9 @@ class _HotelScreenState extends State<HotelScreen> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: CustomButtonWidget(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HotelRoomScreen()));
+                    },
                     text: Strings.toChooseRoom,
                   ),
                 ),

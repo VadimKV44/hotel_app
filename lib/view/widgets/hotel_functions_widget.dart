@@ -35,7 +35,7 @@ class HotelFunctionsWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 36.0, right: 15.0),
             child: Divider(
               thickness: 1,
-              color: MainColors.kGreyColor3.withOpacity(0.15),
+              color: MainColors.kGreyColor.withOpacity(0.15),
             ),
           );
         },

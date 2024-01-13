@@ -21,6 +21,15 @@ abstract class MainStyles {
     );
   }
 
+  static TextStyle kBlackColor3W400(double fonSize) {
+    return TextStyle(
+      color: MainColors.kBlackColor3,
+      fontSize: fonSize,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'SF-Pro-Display',
+    );
+  }
+
   ///   FontWeight W500
   static TextStyle kBlackColorW500(double fonSize) {
     return TextStyle(
@@ -80,6 +89,15 @@ abstract class MainStyles {
   static TextStyle kBlackColorW600(double fonSize) {
     return TextStyle(
       color: MainColors.kBlackColor,
+      fontSize: fonSize,
+      fontWeight: FontWeight.w600,
+      fontFamily: 'SF-Pro-Display',
+    );
+  }
+
+  static TextStyle kBlueColorW600(double fonSize) {
+    return TextStyle(
+      color: MainColors.kBlueColor,
       fontSize: fonSize,
       fontWeight: FontWeight.w600,
       fontFamily: 'SF-Pro-Display',

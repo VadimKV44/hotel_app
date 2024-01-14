@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_app/presenter/utils/money_formatter.dart';
 import 'package:hotel_app/view/consts/colors.dart';
 import 'package:hotel_app/view/consts/strings.dart';
 import 'package:hotel_app/view/consts/styles.dart';
 
 class PriceBlockWidget extends StatelessWidget {
-  const PriceBlockWidget({super.key});
+  const PriceBlockWidget({
+    super.key,
+    required this.tourPrice,
+    required this.fuelCharge,
+    required this.serviceCharge,
+    required this.fullPrice,
+  });
+
+  final String tourPrice;
+  final String fuelCharge;
+  final String serviceCharge;
+  final String fullPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +36,7 @@ class PriceBlockWidget extends StatelessWidget {
                 style: MainStyles.kGreyColorW400(16.0),
               ),
               Text(
-                '186 600 ₽',
+                '${moneyFormatter(double.parse(tourPrice))} ₽',
                 style: MainStyles.kBlackColorW400(16.0),
               ),
             ],
@@ -38,7 +50,7 @@ class PriceBlockWidget extends StatelessWidget {
                 style: MainStyles.kGreyColorW400(16.0),
               ),
               Text(
-                '9 300 ₽',
+                '${moneyFormatter(double.parse(fuelCharge))} ₽',
                 style: MainStyles.kBlackColorW400(16.0),
               ),
             ],
@@ -52,7 +64,7 @@ class PriceBlockWidget extends StatelessWidget {
                 style: MainStyles.kGreyColorW400(16.0),
               ),
               Text(
-                '2 136 ₽',
+                '${moneyFormatter(double.parse(serviceCharge))} ₽',
                 style: MainStyles.kBlackColorW400(16.0),
               ),
             ],
@@ -66,7 +78,7 @@ class PriceBlockWidget extends StatelessWidget {
                 style: MainStyles.kGreyColorW400(16.0),
               ),
               Text(
-                '198 036 ₽',
+                '${moneyFormatter(double.parse(fullPrice))} ₽',
                 style: MainStyles.kBlueColorW600(16.0),
               ),
             ],

@@ -11,10 +11,12 @@ class AboutHotelWidget extends StatelessWidget {
     super.key,
     required this.hotelFunctions,
     required this.peculiarities,
+    required this.description,
   });
 
   final List<HotelFunction> hotelFunctions;
   final List<String> peculiarities;
+  final String description;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class AboutHotelWidget extends StatelessWidget {
             ),
             const SizedBox(height: 12.0),
             Text(
-              'Отель VIP-класса с собственными гольф полями. Высокий уровнь сервиса. Рекомендуем для респектабельного отдыха. Отель принимает гостей от 18 лет!',
+              description,
               style: MainStyles.kBlackColorW400(16.0, 0.9),
             ),
             const SizedBox(height: 16.0),

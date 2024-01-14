@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hotel_app/view/consts/colors.dart';
 import 'package:hotel_app/view/consts/strings.dart';
 import 'package:hotel_app/view/consts/styles.dart';
+import 'package:hotel_app/view/widgets/bottom_bar_widget.dart';
 import 'package:hotel_app/view/widgets/custom_appbar_widget.dart';
-import 'package:hotel_app/view/widgets/custom_button_widget.dart';
 
 class PaidScreen extends StatelessWidget {
   const PaidScreen({super.key});
@@ -52,21 +52,9 @@ class PaidScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  height: 1.0,
-                  color: MainColors.kLightGreyColor3,
-                ),
-                Container(
-                  width: double.infinity,
-                  color: MainColors.kWhiteColor,
-                  padding: const EdgeInsets.only(top: 12.0, bottom: 28.0),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: CustomButtonWidget(
-                      onTap: () {},
-                      text: Strings.sup,
-                    ),
-                  ),
+                BottomBarWidget(
+                  onTap: () {},
+                  buttonText: Strings.sup,
                 ),
               ],
             ),

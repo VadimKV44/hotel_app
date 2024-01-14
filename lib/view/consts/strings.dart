@@ -1,4 +1,9 @@
 abstract class Strings {
+  ///   API
+  static const String baseUrl = "https://run.mocky.io/v3";
+  static const String error = "При загрузке данных произошла ошибка";
+
+  ///   In screens
   static const String hotel = "Отель";
   static const String aboutHotel = "Об отеле";
   static const String toChooseRoom = "К выбору номера";

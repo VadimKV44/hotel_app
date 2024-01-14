@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_app/model/models/room_model/room_model.dart';
+import 'package:hotel_app/presenter/utils/money_formatter.dart';
 import 'package:hotel_app/view/consts/colors.dart';
 import 'package:hotel_app/view/consts/strings.dart';
 import 'package:hotel_app/view/consts/styles.dart';
@@ -11,14 +13,12 @@ import 'package:hotel_app/view/widgets/peculiarities_item_widget.dart';
 class HotelRoomItemWidget extends StatelessWidget {
   const HotelRoomItemWidget({
     super.key,
-    required this.peculiarities,
-    required this.images,
     required this.onTap,
+    required this.room,
   });
 
-  final List<String> images;
-  final List<String> peculiarities;
   final void Function() onTap;
+  final RoomModel room;
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +32,9 @@ class HotelRoomItemWidget extends StatelessWidget {
         children: [
           const SizedBox(height: 16.0),
           ImageViewWidget(
-            itemCount: images.length,
+            itemCount: room.imageUrls?.length ?? 0,
             itemBuilder: (context, index) {
-              return ImageItemWidget(image: 'assets/images/${images[index]}');
+              return ImageItemWidget(image: room.imageUrls![index]);
             },
           ),
           const SizedBox(height: 8.0),
@@ -43,36 +43,37 @@ class HotelRoomItemWidget extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  'Стандартный с видом на бассейн или сад',
+                  room.name ?? '',
                   style: MainStyles.kBlackColorW500(22.0),
                 ),
                 const SizedBox(height: 8.0),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Wrap(
-                    spacing: 8.0,
-                    runSpacing: 8.0,
-                    children: peculiarities.map((element) {
-                      return PeculiaritiesItemWidget(text: element);
-                    }).toList(),
-                  ),
-                ),
+                room.peculiarities != null
+                    ? Align(
+                        alignment: Alignment.centerLeft,
+                        child: Wrap(
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          children: room.peculiarities!.map((element) {
+                            return PeculiaritiesItemWidget(text: element);
+                          }).toList(),
+                        ),
+                      )
+                    : const SizedBox(),
                 const SizedBox(height: 8.0),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: InformationAboutRoomButtonWidget(onTap: () {}),
                 ),
                 const SizedBox(height: 16.0),
-                Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.end,
+                Row(
                   children: [
                     Text(
-                      '186 600 ₽',
+                      '${moneyFormatter(double.parse((room.price ?? 0).toString()))} ₽',
                       style: MainStyles.kBlackColorW600(30.0),
                     ),
                     const SizedBox(width: 8.0),
                     Text(
-                      'за 7 ночей с перелётом',
+                      room.pricePer ?? '',
                       style: MainStyles.kGreyColorW400(16.0),
                     ),
                   ],

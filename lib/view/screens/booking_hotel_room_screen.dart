@@ -124,9 +124,8 @@ class _BookingHotelRoomScreenState extends State<BookingHotelRoomScreen> {
               BottomBarWidget(
                 onTap: () {
                   if (_formKey.currentState!.validate()) {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => const PaidScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const PaidScreen()));
                   }
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const PaidScreen()));
                 },
                 buttonText: '${Strings.toPay} ${moneyFormatter(
                   double.parse(

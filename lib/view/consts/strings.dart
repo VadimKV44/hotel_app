@@ -21,6 +21,7 @@ abstract class Strings {
   static const String mail = "Почта";
   static const String thisDataNotShared = "Эти данные никому не передаются. После оплаты мы вышли чек на указанный вами номер и почту";
   static const String addTourist = "Добавить туриста";
+  static const String tourist = "турист";
   static const String name = "Имя";
   static const String surname = "Фамилия";
   static const String birthDate = "Дата рождения";

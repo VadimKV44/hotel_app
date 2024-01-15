@@ -13,4 +13,5 @@ abstract class MainColors {
   static const Color kLightGreyColor3 = Color(0xFFE8E9EC);
   static const Color kBlackColor3 = Color(0xFF14142B);
   static const Color kGreyColor2 = Color(0xFFA9ABB7);
+  static const Color kRedColor = Color(0xFFEB5757);
 }

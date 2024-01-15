@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hotel_app/model/models/booking_model/booking_model.dart';
 import 'package:hotel_app/presenter/cubits/booking_cubit/booking_cubit.dart';
 import 'package:hotel_app/presenter/utils/money_formatter.dart';
 import 'package:hotel_app/view/consts/colors.dart';
@@ -29,6 +30,8 @@ class _BookingHotelRoomScreenState extends State<BookingHotelRoomScreen> {
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _mailController = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     BlocProvider.of<BookingCubit>(context).booking();
@@ -41,8 +44,6 @@ class _BookingHotelRoomScreenState extends State<BookingHotelRoomScreen> {
     _mailController.dispose();
     super.dispose();
   }
-
-  int initialItemCount = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -64,93 +65,98 @@ class _BookingHotelRoomScreenState extends State<BookingHotelRoomScreen> {
     Widget bookingHotelRoomScreenWidget = const SizedBox();
     if (state is Success) {
       BookingCubit bookingCubit = BlocProvider.of<BookingCubit>(context);
+      BookingModel bookingModel = BlocProvider.of<BookingCubit>(context).bookingModel;
       bookingHotelRoomScreenWidget = FadeInUp(
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 8.0),
-                    BlockWithHotelWidget(
-                      ratingName: state.bookingModel?.ratingName ?? '',
-                      rating: state.bookingModel?.horating ?? 0,
-                      hotelName: state.bookingModel?.hotelName ?? '',
-                      hotelAddress: state.bookingModel?.hotelAddress ?? '',
-                    ),
-                    const SizedBox(height: 8.0),
-                    BlockWithBookingDataWidget(bookingModel: state.bookingModel),
-                    const SizedBox(height: 8.0),
-                    InformationAboutBuyerWidget(
-                      phoneNumberController: _phoneNumberController,
-                      mailController: _mailController,
-                    ),
-                    const SizedBox(height: 4.0),
-                    AnimatedList(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      key: _touristsKey,
-                      physics: const NeverScrollableScrollPhysics(),
-                      initialItemCount: initialItemCount,
-                      itemBuilder: (context, index, animation) {
-                        return SizeTransition(
-                          sizeFactor: animation,
-                          child: const TouristItemWidget(),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 4.0),
-                    AddTouristWidget(
-                      onTap: () {
-                        setState(() {
-                          _touristsKey.currentState?.insertItem(initialItemCount);
-                          initialItemCount + 1;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 8.0),
-                    PriceBlockWidget(
-                      tourPrice: (state.bookingModel?.tourPrice ?? '').toString(),
-                      fuelCharge: (state.bookingModel?.fuelCharge ?? '').toString(),
-                      serviceCharge: (state.bookingModel?.serviceCharge ?? '').toString(),
-                      fullPrice: bookingCubit.calculationFullPrice([
-                        state.bookingModel?.tourPrice ?? 0,
-                        state.bookingModel?.fuelCharge ?? 0,
-                        state.bookingModel?.serviceCharge ?? 0,
-                      ]).toString(),
-                    ),
-                    const SizedBox(height: 10.0),
-                  ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 8.0),
+                      BlockWithHotelWidget(
+                        ratingName: bookingModel.ratingName ?? '',
+                        rating: bookingModel.horating ?? 0,
+                        hotelName: bookingModel.hotelName ?? '',
+                        hotelAddress: bookingModel.hotelAddress ?? '',
+                      ),
+                      const SizedBox(height: 8.0),
+                      BlockWithBookingDataWidget(bookingModel: bookingModel),
+                      const SizedBox(height: 8.0),
+                      InformationAboutBuyerWidget(
+                        phoneNumberController: _phoneNumberController,
+                        mailController: _mailController,
+                      ),
+                      const SizedBox(height: 4.0),
+                      AnimatedList(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        key: _touristsKey,
+                        physics: const NeverScrollableScrollPhysics(),
+                        initialItemCount: bookingCubit.touristItems.length,
+                        itemBuilder: (context, index, animation) {
+                          return SizeTransition(
+                            sizeFactor: animation,
+                            child: TouristItemWidget(index: index),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 4.0),
+                      AddTouristWidget(onTap: () => _addTourist(bookingCubit)),
+                      const SizedBox(height: 8.0),
+                      PriceBlockWidget(
+                        tourPrice: (bookingModel.tourPrice ?? '').toString(),
+                        fuelCharge: (bookingModel.fuelCharge ?? '').toString(),
+                        serviceCharge: (bookingModel.serviceCharge ?? '').toString(),
+                        fullPrice: bookingCubit.calculationFullPrice([
+                          bookingModel.tourPrice ?? 0,
+                          bookingModel.fuelCharge ?? 0,
+                          bookingModel.serviceCharge ?? 0,
+                        ]).toString(),
+                      ),
+                      const SizedBox(height: 10.0),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            BottomBarWidget(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const PaidScreen()));
-              },
-              buttonText: '${Strings.toPay} ${moneyFormatter(
-                double.parse(
-                  bookingCubit.calculationFullPrice([
-                    state.bookingModel?.tourPrice ?? 0,
-                    state.bookingModel?.fuelCharge ?? 0,
-                    state.bookingModel?.serviceCharge ?? 0,
-                  ]).toString(),
-                ),
-              )} ₽',
-            ),
-          ],
+              BottomBarWidget(
+                onTap: () {
+                  if (_formKey.currentState!.validate()) {
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => const PaidScreen()));
+                  }
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const PaidScreen()));
+                },
+                buttonText: '${Strings.toPay} ${moneyFormatter(
+                  double.parse(
+                    bookingCubit.calculationFullPrice([
+                      bookingModel.tourPrice ?? 0,
+                      bookingModel.fuelCharge ?? 0,
+                      bookingModel.serviceCharge ?? 0,
+                    ]).toString(),
+                  ),
+                )} ₽',
+              ),
+            ],
+          ),
         ),
       );
     } else if (state is Loading) {
       bookingHotelRoomScreenWidget = const CustomLoadingAnimationWidget();
     } else if (state is Error) {
       bookingHotelRoomScreenWidget = CustomErrorWidget(
-        error: state.bookingModel?.error ?? 'Error',
+        error: BlocProvider.of<BookingCubit>(context).bookingModel.error ?? 'Error',
         refresh: () {
           BlocProvider.of<BookingCubit>(context).booking();
         },
       );
     }
     return bookingHotelRoomScreenWidget;
+  }
+
+  void _addTourist(BookingCubit bookingCubit) {
+    _touristsKey.currentState?.insertItem(bookingCubit.touristItems.length);
+    bookingCubit.addTourist(bookingCubit.touristItems.length);
   }
 }

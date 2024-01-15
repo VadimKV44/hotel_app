@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:hotel_app/view/consts/colors.dart';
 import 'package:hotel_app/view/consts/strings.dart';
@@ -44,7 +46,7 @@ class PaidScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 23.0),
                         child: Text(
-                          '${Strings.orderHasBeenPaidDescription1}123123${Strings.orderHasBeenPaidDescription2}',
+                          '${Strings.orderHasBeenPaidDescription1}${Random().nextInt(123123)}${Strings.orderHasBeenPaidDescription2}',
                           textAlign: TextAlign.center,
                           style: MainStyles.kGreyColorW400(16.0),
                         ),
@@ -53,7 +55,9 @@ class PaidScreen extends StatelessWidget {
                   ),
                 ),
                 BottomBarWidget(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context)..pop()..pop()..pop();
+                  },
                   buttonText: Strings.sup,
                 ),
               ],

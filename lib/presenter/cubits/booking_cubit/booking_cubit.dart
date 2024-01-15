@@ -10,17 +10,26 @@ class BookingCubit extends Cubit<BookingState> {
 
   Repository repository = Repository();
 
+  BookingModel bookingModel = BookingModel();
+
   void booking() async {
     emit(Loading());
-    BookingModel booking = await repository.booking();
-    if (booking.error != null) {
-      emit(Error(bookingModel: booking));
+    bookingModel = await repository.booking();
+    if (bookingModel.error != null) {
+      emit(Error());
     } else {
-      emit(Success(bookingModel: booking));
+      emit(Success());
     }
   }
 
   int calculationFullPrice(List<int> prices) {
     return prices.fold<int>(0, (prev, element) => prev + element);
+  }
+
+  List<int> touristItems = [0];
+
+  void addTourist(int index) {
+    touristItems.add(index);
+    emit(Success());
   }
 }

@@ -5,14 +5,8 @@ abstract class BookingState {}
 
 class BookingInitial extends BookingState {}
 
-class Success extends BookingState {
-  Success({this.bookingModel});
-  final BookingModel? bookingModel;
-}
+class Success extends BookingState {}
 
 class Loading extends BookingState {}
 
-class Error extends BookingState {
-  Error({this.bookingModel});
-  final BookingModel? bookingModel;
-}
+class Error extends BookingState {}
